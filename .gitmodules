@@ -1,0 +1,3 @@
+[submodule "board-support"]
+	path = board-support
+	url = https://github.com/analogdevicesinc/energy-board-support
