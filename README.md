@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
     <img src="docs/diagrams/adi_logo.png" width="250" alt="ADI Logo" /><br>
 </p>
 
@@ -100,7 +100,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ## Contact
 
-For questions or support, please open an issue on the [GitHub repository](https://github.com/adi-innersource/emfrm-ade-registers/issues) or contact the maintainers listed in the repository.
+For questions or support, please open an issue on the [GitHub repository](https://github.com/analogdevicesinc/energy-ade-registers/issues) 
 
 ## References
 
