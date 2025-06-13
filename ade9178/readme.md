@@ -47,7 +47,7 @@ The following Board Support Package (BSP) functions and function pointers are us
 
 ## Building and Debugging the Example
 
-Refer to the [repository readme](../readme.md) for detailed instructions to build and run the example using CMake and Visual Studio Code.
+Refer to the [repository readme](../README.md) for detailed instructions to build and run the example using CMake and Visual Studio Code.
 
 ## Flashing the Hex File
 
