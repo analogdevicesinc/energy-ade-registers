@@ -1,0 +1,57 @@
+{
+	"folders": [
+		{
+			"name": "project",
+			"path": ".."
+		},
+		{
+			"name": "include",
+			"path": "../../../../../include"
+		},
+		{
+			"name": "adc/include",
+			"path": "../../../../../../include"
+		},
+		{
+			"name": "example",
+			"path": "../../../../"
+		},
+		{
+			"name": "board_support_stm",
+			"path": "../../../../../../board_support/stm"
+		},
+		{
+			"name": "board_support_generic",
+			"path": "../../../../../../board_support/generic"
+		},
+		{
+			"name": "crc",
+			"path": "../../../../../../crc"
+		},
+		{
+			"path": "C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
+		},
+		{
+			"name": "cmake",
+			"path": "../../../"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/test": true,
+			"**/nucleo_h563zi_master": true,
+			"**/crane_sieval": true,
+			"**/nucleo_h563zi_slave": true,
+			"**/Templates": true,
+			"**/_htmresc": true,
+			"**/**.html": true,
+			"**/**.chm": true,
+			"**/stm32h563zi": true,
+			"**/vscode": true,
+			"**/keil": true,
+		},
+	"cmake.configureArgs": [
+		"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
+	],
+	}
+}
