@@ -11,9 +11,7 @@ A collection of header files and example projects for communicating with Analog 
 - [Introduction](#introduction)
 - [Directory Structure](#directory-structure)
 - [IC Folder Structure](#ic-folder-structure)
-- [Building Examples](#building-examples)
-    - [Command Line with CMake](#command-line-with-cmake)
-    - [VS Code Workspace](#vs-code-workspace)
+- [Building, Running and Debugging Examples](#building-running-and-debugging-examples)
 - [License](#license)
 - [Contributing](#contributing)
 - [Contact](#contact)
@@ -22,11 +20,11 @@ A collection of header files and example projects for communicating with Analog 
 ## Introduction
 
 **Energy ADE Registers** provides header files and example projects to communicate with Analog Devices energy metering ICs. The supported ICs are:
-
-| IC                  | Header Files | Examples |
-|---------------------|:------------:|:--------:|
-| ADE9178             |     Yes      |   Yes    |
-| ADE911x, ADE910x    |     Yes      |   No     |
+| IC                  | Header Files | Examples | Readme                                      |
+|---------------------|:------------:|:--------:|----------------------------------------------|
+| ADE9178             |     Yes      |   Yes    | [Readme](ade9178/readme.md)                  |
+| ADE911x, ADE910x    |     Yes      |   Yes    | [Readme](ade91xx/readme.md)                  |
+| ADEMA12x            |     Yes      |   Yes    | [Readme](adema12x/readme.md)                 |
 
 This repository is intended for developers working with ADI energy metering ICs and evaluation boards.
 
@@ -34,7 +32,8 @@ This repository is intended for developers working with ADI energy metering ICs 
 
 ```
 ├── ade9178         # Header files and example projects for ADE9178 IC
-├── ade91xx         # Header files for ADE911x and ADE910x ICs
+├── ade91xx         # Header files and example projects for ADE911x and ADE910x ICs
+├── adema12x        # Header files and example projects for ADEMA12x ICs
 ├── board_support   # Submodule - Functions to support evaluation board
 ├── docs            # Documentation, diagrams, and release notes
 ├── crc             # CRC-8 and CRC-16 calculation utilities
@@ -56,39 +55,9 @@ product/
 ├── readme.md                   # Instructions for IC header files and examples
 ```
 
-## Building Examples
+## Building, Running and Debugging Examples
 
-A `CMakeLists.txt` is provided to build the examples. Install the following tools and add them to your PATH:
-
-- [CMake](https://cmake.org/download) (version 3.22 or higher)
-- `make` (e.g., via [MinGW](https://sourceforge.net/projects/mingw/) for Windows)
-
-You will also need the appropriate SDK for the MCU on your evaluation board, and a compatible compiler accessible to CMake.
-
-### Command Line with CMake
-
-1. Open a terminal in the product directory containing the `CMakeLists.txt` file.
-2. Configure and build the project (output will be in the `build/Release` directory):
-
-    ```sh
-    cmake -S . -B build/Release -G "MinGW Makefiles" -DSDK_PATH=/path/to/sdk
-    cmake --build build/Release
-    ```
-
-    You can specify additional SDK paths using the `-D` option. Refer to the relevant `CMakeLists.txt` files for available variables and configuration options.
-
-### VS Code Workspace
-
-The repository includes a pre-configured VS Code workspace for easy building and debugging.
-
-1. The default CMake preset is loaded automatically when you open the workspace.
-2. If not, open the command palette, search for `CMake: Select Configure Preset`, and choose the appropriate preset.
-3. Use the command palette to run `Tasks: Run Task` and select the desired build, clean, or flash task.
-
-#### Debugging
-
-1. Open the "Run and Debug" sidebar in VS Code.
-2. Click "Start Debugging" to launch the debugger and step through your code or reset the device as needed.
+For detailed steps on building, running, and debugging the examples for each board, refer to the [board support instructions](https://github.com/analogdevicesinc/energy-board-support.git).
 
 ## License
 
@@ -101,7 +70,3 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 ## Contact
 
 For questions or support, please open an issue on the [GitHub repository](https://github.com/analogdevicesinc/energy-ade-registers/issues) 
-
-## References
-
-- [CMake Documentation](https://cmake.org/documentation/)
