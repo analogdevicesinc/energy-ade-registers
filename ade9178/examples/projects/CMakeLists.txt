@@ -60,7 +60,7 @@ add_executable(${PROJECT_NAME})
 set(TARGET_EXECUTABLE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/build/${CMAKE_BUILD_TYPE}/${CMAKE_PROJECT_NAME})
 
 set (APP_SRC  ${ADE9178_ROOT_DIR}/examples/cmd_format_example.c
-              ${ADE9178_ROOT_DIR}/../crc/source/crc.c)
+              ${ADE9178_ROOT_DIR}/../crc/source/ade_crc.c)
 
 if(USE_DUMMY_EVB)
 set(APP_SRC  ${APP_SRC} ${ADE9178_ROOT_DIR}/../board_support/dummy_board/adi_evb.c)
