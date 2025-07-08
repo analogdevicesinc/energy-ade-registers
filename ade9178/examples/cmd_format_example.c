@@ -7,9 +7,10 @@
 #include "ADE911X_addr_def.h"
 #include "ade9178.h"
 #include "ade9178_default.h"
+#include "ade_crc.h"
 #include "adi_ade9178_cmd_format.h"
 #include "adi_evb.h"
-#include "crc.h"
+#include "message.h"
 #include <string.h>
 
 /*=============  D E F I N I T I O N S  =============*/
@@ -33,46 +34,27 @@
 #define DEVICE_ALL_ADC 0x05
 /** fullscale code for WATT and VA output*/
 #define POWER_FS_CODE 85829040
-/** Size of the response buffer for ADE9178 */
-#define RESPONSE_BUFFER_SIZE 20
 
 /*=============  D A T A   =============*/
 
-static ADI_ADE9178_CMD command;                      // Command structure
-static ADI_EVB_CONFIG evbConfig;                     // EVB configuration
-static void *hEvb;                                   // Handle to EVB
-static volatile uint8_t isHostRdy = 0;               // Flag for HOST_RDY signal
-static volatile uint8_t isHostErr = 0;               // Flag for HOST_ERR signal
-static int32_t responseBuffer[RESPONSE_BUFFER_SIZE]; // Response Data from ADE9178.
+static ADI_ADE9178_CMD command;             // Command structure
+static ADI_EVB_CONFIG evbConfig;            // EVB configuration
+static void *hEvb;                          // Handle to EVB
+static volatile uint8_t isHostRdy = 0;      // Flag for HOST_RDY signal
+static volatile uint8_t isHostErr = 0;      // Flag for HOST_ERR signal
+static ADI_ADE9178_RESPONSE responseBuffer; // Response Data from ADE9178.
 /*============= F U N C T I O N S =============*/
 
-// GPIO interrupt callback for handling HOST_RDY and HOST_ERR signals
 static void IrqGPIOCallback(uint32_t port, uint32_t flag);
-
-// Sends a command to the device and receives the response
 static uint32_t SendCmdAndGetResponse(uint8_t device, uint16_t addr, uint8_t readWriteBit,
                                       uint8_t numRegisters, int32_t *pData);
-
-// Writes to and reads from an ADE9178 register
 static uint32_t WriteAndReadAde9178Register();
-
-// Writes to and reads from an ADC0 register
 static uint32_t WriteAndReadAdc0Register();
-
-// Writes to and reads from all ADC registers
 static uint32_t WriteAndReadAllAdcRegister();
-
-// Validates the CRC of a received frame
-static uint32_t FrameValidateCrc(uint8_t *pFrame, uint8_t numBytes);
-
-// Assembles a command frame to send to the device
+static uint32_t ValidateFrameCrc(uint8_t *pFrame, uint8_t numBytes);
 static void AssembleCommand(uint8_t device, uint16_t addr, uint8_t readWriteBit,
                             uint8_t numRegisters, int32_t data);
-
-// Configures and initializes the ADCs connected to the ADE9178
 static void ConfigureAndInitAdcs(void);
-
-// Reads the Total Active Energy registers
 static uint32_t ReadWattPosEgy();
 
 int main()
@@ -80,6 +62,7 @@ int main()
     ADI_EVB_CONFIG *pEvbConfig = &evbConfig;
     int32_t boardStatus = 0;
     int32_t egyReadCount = 0;
+    uint32_t status = 0;
     // Assign GPIO interrupt callback
     pEvbConfig->gpioConfig.pfGpioCallback = IrqGPIOCallback;
 
@@ -89,6 +72,15 @@ int main()
 
     if (boardStatus == 0)
     {
+        EvbInitMessageBuffer();
+
+        printf("\n**************** ADE9178 Command Format Example ******************\n");
+
+        printf("This example demonstrates basic communication with the ADE9178.\n");
+
+        printf("It shows how to write to and read from ADE9178 and ADC (ADE91xx/ADE910x) registers "
+               "using the command protocol.\n");
+
         // Enable IRQ for HOST_RDY and HOST_ERR pins
         EvbEnableAllGPIOIrq();
 
@@ -105,13 +97,33 @@ int main()
 
         // Example: Write and read all ADC registers
         WriteAndReadAllAdcRegister();
+        printf("Total Active Energy (Phase A) values in a loop...\n");
 
         // Reads the Total Active Energy registers continuously
-        while (egyReadCount < 100)
+        while (egyReadCount < 10)
         {
-            ReadWattPosEgy();
+            status = ReadWattPosEgy();
             egyReadCount++;
+            if (status != 0)
+            {
+                printf("Error reading Total Active Energy (Phase A) register.\n");
+            }
         }
+        // This is to ensure that the messages are flushed and ready for transmission
+        // before the program ends.
+
+        printf("\n**************** Example Completed ******************\n");
+
+        EvbFlushMessages();
+
+        while (1)
+        {
+            // Keep the program running to allow transmission of data
+            // or implement other functionality as needed
+        }
+    }
+    else
+    {
     }
 }
 
@@ -148,12 +160,13 @@ static void ConfigureAndInitAdcs(void)
  * @brief Writes to and reads from an ADE9178 register.
  *        Demonstrates register write and read using the command format.
  */
-static uint32_t WriteAndReadAde9178Register()
+static uint32_t WriteAndReadAde9178Register(void)
 {
     int32_t data = 0x12345678;
     uint32_t status = 0;
     uint16_t addr = ADE9178_REG_AVGAIN;
     uint8_t numRegisters = 1;
+    printf("Reading ADE9178 register");
 
     // Write value to register
     status = SendCmdAndGetResponse(DEVICE_ADE9178, addr, RWB_WRITE, numRegisters, &data);
@@ -164,8 +177,11 @@ static uint32_t WriteAndReadAde9178Register()
 
     if (status == 0)
     {
-        // Send data to host via UART
-        EvbStartHostUartTx(hEvb, (uint8_t *)&data, numRegisters * ADI_ADE9178_RESPONSE_SIZE);
+        printf("ADE9178 address:0x%04X  Value:0x%08X\n", addr, data);
+    }
+    else
+    {
+        printf("Error reading ADE9178 register at address:0x%04X\n", addr);
     }
     return status;
 }
@@ -174,27 +190,32 @@ static uint32_t WriteAndReadAde9178Register()
  * @brief Writes to and reads from the scratch register of ADC0.
  *        Demonstrates ADC register access.
  */
-static uint32_t WriteAndReadAdc0Register()
+static uint32_t WriteAndReadAdc0Register(void)
 {
     int32_t data = 0x3;
     int32_t scratchData;
     uint32_t status = 0;
     uint8_t numRegisters = 1;
+    uint16_t addr = ADDR_ADE911X_MAP0_SCRATCH;
+    ADI_ADE9178_1x2xADC_RESPONSE response = {0};
+
+    printf("Reading ADC0 SCRATCH registers");
 
     // Write value to ADC0 scratch register
-    status = SendCmdAndGetResponse(DEVICE_ADC0, ADDR_ADE911X_MAP0_SCRATCH, RWB_WRITE, numRegisters,
-                                   &data);
+    status = SendCmdAndGetResponse(DEVICE_ADC0, addr, RWB_WRITE, numRegisters, &data);
 
-    data = 0x0;
-    status = SendCmdAndGetResponse(DEVICE_ADC0, ADDR_ADE911X_MAP0_SCRATCH, RWB_READ, numRegisters,
-                                   &data);
-
-    scratchData = (data & 0xFF00) >> 8;
+    // Use response struct as buffer for reading
+    memset(&response, 0, sizeof(response));
+    status = SendCmdAndGetResponse(DEVICE_ADC0, addr, RWB_READ, numRegisters, (int32_t *)&response);
+    scratchData = response.adc0Data;
 
     if (status == 0)
     {
-        // Send data to host via UART
-        EvbStartHostUartTx(hEvb, (uint8_t *)&scratchData, numRegisters * ADI_ADE9178_RESPONSE_SIZE);
+        printf("ADC0 address:0x%04X  Value:0x%02X\n", addr, scratchData);
+    }
+    else
+    {
+        printf("Error reading ADC0 register at address:0x%04X\n", addr);
     }
     return status;
 }
@@ -203,43 +224,33 @@ static uint32_t WriteAndReadAdc0Register()
  * @brief Writes to and reads from the scratch register of all ADCs.
  *        Demonstrates multi-register ADC access.
  */
-static uint32_t WriteAndReadAllAdcRegister()
+static uint32_t WriteAndReadAllAdcRegister(void)
 {
     int32_t data = 0x2;
     uint32_t status = 0;
-    int32_t allAdcData[2] = {0, 0};
-    uint8_t adc1scratchData = 0;
-    uint8_t adc2scratchData = 0;
-    uint8_t adc3scratchData = 0;
-    uint8_t adc4scratchData = 0;
-    uint32_t combinedScratch = 0;
-    uint8_t numRegisters = 1;
+    uint8_t numRegisters = 2;
+    uint16_t addr = ADDR_ADE911X_MAP0_SCRATCH;
+    ADI_ADE9178_3x4xADC_RESPONSE response = {0}; // Use struct as buffer
+
+    printf("Reading all ADC SCRATCH registers");
 
     // Write value to all ADC scratch registers
-    status = SendCmdAndGetResponse(DEVICE_ALL_ADC, ADDR_ADE911X_MAP0_SCRATCH, RWB_WRITE,
-                                   numRegisters, &data);
+    status = SendCmdAndGetResponse(DEVICE_ALL_ADC, ADDR_ADE911X_MAP0_SCRATCH, RWB_WRITE, 1, &data);
 
-    data = 0x0;
-    numRegisters = 2;
     // Read back values from all ADC scratch registers
-    // ADC Read will return addr and addr + 1 values . There are 4 ADCs, so we read 2 registers
+    memset(&response, 0, sizeof(response));
     status = SendCmdAndGetResponse(DEVICE_ALL_ADC, ADDR_ADE911X_MAP0_SCRATCH, RWB_READ,
-                                   numRegisters, allAdcData);
-
-    adc1scratchData = (allAdcData[0] & 0xFF00) >> 8;      // Extract ADC1 scratch value
-    adc2scratchData = (allAdcData[0] & 0xFF000000) >> 24; // Extract ADC2 scratch value
-    adc3scratchData = (allAdcData[1] & 0xFF00) >> 8;      // Extract ADC3 scratch value
-    adc4scratchData = (allAdcData[1] & 0xFF000000) >> 24; // Extract ADC4 scratch value
-
-    // Combine scratch data from all ADC's into a single 32-bit value
-    combinedScratch = ((uint32_t)adc1scratchData << 24) | ((uint32_t)adc2scratchData << 16) |
-                      ((uint32_t)adc3scratchData << 8) | ((uint32_t)adc4scratchData);
-
+                                   numRegisters, (int32_t *)&response);
     if (status == 0)
     {
-        // Send combined data to host via UART
-        EvbStartHostUartTx(hEvb, (uint8_t *)&combinedScratch,
-                           numRegisters * ADI_ADE9178_RESPONSE_SIZE);
+        printf("ADC0 address:0x%04X  Value:0x%02X\n", addr, response.adc0Data);
+        printf("ADC1 address:0x%04X  Value:0x%02X\n", addr, response.adc1Data);
+        printf("ADC2 address:0x%04X  Value:0x%02X\n", addr, response.adc2Data);
+        printf("ADC3 address:0x%04X  Value:0x%02X\n", addr, response.adc3Data);
+    }
+    else
+    {
+        printf("Error reading ADC Registers at address:0x%04X\n", addr);
     }
     return status;
 }
@@ -249,7 +260,7 @@ static uint32_t WriteAndReadAllAdcRegister()
  *        This function reads the low and high parts of the register and converts the energy
  *        value into watt-seconds. The result is sent to the host via UART.
  */
-static uint32_t ReadWattPosEgy()
+static uint32_t ReadWattPosEgy(void)
 {
     int32_t wattPosLo = 0x0;
     int32_t wattPosHi = 0x0;
@@ -273,8 +284,7 @@ static uint32_t ReadWattPosEgy()
 
     if (status == 0)
     {
-        // Send data to host via UART
-        EvbStartHostUartTx(hEvb, (uint8_t *)&egyWattSec, sizeof(float));
+        printf("0x%04x\n", egyValue);
     }
     return status;
 }
@@ -282,6 +292,11 @@ static uint32_t ReadWattPosEgy()
 /**
  * @brief Assembles a command frame to send to the device.
  *        Refer to the datasheet for more details on command formatting.
+ * @param device Device ID (e.g., DEVICE_ADE9178, DEVICE_ADC0, etc.)
+ * @param addr Register address to read/write.
+ * @param readWriteBit 1 for read, 0 for write.
+ * @param numRegisters Number of registers to read/write.
+ * @param data Data to write (for write operations).
  */
 void AssembleCommand(uint8_t device, uint16_t addr, uint8_t readWriteBit, uint8_t numRegisters,
                      int32_t data)
@@ -293,12 +308,18 @@ void AssembleCommand(uint8_t device, uint16_t addr, uint8_t readWriteBit, uint8_
     pCmd->numRegisters = numRegisters;
     pCmd->data = data;
     // Calculate CRC for the command frame (excluding CRC field itself)
-    pCmd->crc = CalculateCrc16((uint8_t *)pCmd, sizeof(ADI_ADE9178_CMD) - ADI_ADE9178_CRC_SIZE);
+    pCmd->crc = AdeCalculateCrc16((uint8_t *)pCmd, sizeof(ADI_ADE9178_CMD) - ADI_ADE9178_CRC_SIZE);
 }
 
 /**
  * @brief Sends a command to the device and receives the response.
  *        Handles waiting for HOST_RDY/HOST_ERR and CRC validation.
+ * @param device Device ID (e.g., DEVICE_ADE9178, DEVICE_ADC0, etc.)
+ * @param addr Register address to read/write.
+ * @param readWriteBit 1 for read, 0 for write.
+ * @param numRegisters Number of registers to read/write.
+ * @param pData Pointer to data buffer for read/write operations.
+ * @return Status of the operation (0 for success, non-zero for error).
  */
 uint32_t SendCmdAndGetResponse(uint8_t device, uint16_t addr, uint8_t readWriteBit,
                                uint8_t numRegisters, int32_t *pData)
@@ -315,7 +336,7 @@ uint32_t SendCmdAndGetResponse(uint8_t device, uint16_t addr, uint8_t readWriteB
     isHostErr = 0;
 
     // Start SPI transmit to ADE9178
-    EvbStartAdeSpiTx(hEvb, (uint8_t *)&command, numCmdBytes);
+    EvbAdeSpiTransmitAsync(hEvb, (uint8_t *)&command, numCmdBytes);
 
     // Wait for HOST_RDY or HOST_ERR signal from ADE9178
     while (isHostRdy == 0 && isHostErr == 0)
@@ -332,22 +353,22 @@ uint32_t SendCmdAndGetResponse(uint8_t device, uint16_t addr, uint8_t readWriteB
         numBytesToReceive = numRegisters * ADI_ADE9178_RESPONSE_SIZE;
     }
 
+    numBytesToReceive += ADI_ADE9178_CRC_SIZE; // Add CRC size to response
     // Reset host ready/error flags
     isHostRdy = 0;
     isHostErr = 0;
 
     // Start SPI receive from ADE9178 and wait for response
-    EvbStartAdeSpiRx(hEvb, (uint8_t *)&responseBuffer[0], numBytesToReceive + ADI_ADE9178_CRC_SIZE);
+    EvbAdeSpiReceiveAsync(hEvb, (uint8_t *)&responseBuffer.data[0], numBytesToReceive);
     while (isHostRdy == 0 && isHostErr == 0)
     {
     }
 
     // Validate CRC of received frame
-    status =
-        FrameValidateCrc((uint8_t *)&responseBuffer[0], numBytesToReceive + ADI_ADE9178_CRC_SIZE);
+    status = ValidateFrameCrc((uint8_t *)&responseBuffer.data[0], numBytesToReceive);
     if (status == 0)
     {
-        memcpy(pData, &responseBuffer[0], numBytesToReceive);
+        memcpy(pData, &responseBuffer.data[0], numBytesToReceive - ADI_ADE9178_CRC_SIZE);
     }
     return status;
 }
@@ -355,6 +376,8 @@ uint32_t SendCmdAndGetResponse(uint8_t device, uint16_t addr, uint8_t readWriteB
 /**
  * @brief GPIO interrupt callback for HOST_RDY and HOST_ERR signals.
  *        Sets flags when signals are detected.
+ * @param port GPIO port number
+ * @param flag GPIO pin flags indicating which pin triggered the interrupt
  */
 void IrqGPIOCallback(uint32_t port, uint32_t flag)
 {
@@ -389,7 +412,7 @@ void IrqGPIOCallback(uint32_t port, uint32_t flag)
  * @param numBytes Number of bytes in the frame (including CRC)
  * @return 0 if CRC matches, -1 otherwise
  */
-static uint32_t FrameValidateCrc(uint8_t *pFrame, uint8_t numBytes)
+static uint32_t ValidateFrameCrc(uint8_t *pFrame, uint8_t numBytes)
 {
     uint32_t status = 0;
     uint8_t responseLength = numBytes - ADI_ADE9178_CRC_SIZE; // Exclude the CRC
@@ -397,7 +420,7 @@ static uint32_t FrameValidateCrc(uint8_t *pFrame, uint8_t numBytes)
     uint32_t expectedCrc =
         (uint32_t)pFrame[responseLength + 1] << 8 | (uint32_t)pFrame[responseLength];
     // Calculate the CRC of the received frame (excluding CRC field)
-    uint32_t responseCrc = CalculateCrc16(pFrame, responseLength);
+    uint32_t responseCrc = AdeCalculateCrc16(pFrame, responseLength);
     if (expectedCrc != responseCrc)
     {
         status = -1;

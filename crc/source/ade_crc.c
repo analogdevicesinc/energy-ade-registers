@@ -3,17 +3,17 @@
 ******************************************************************************/
 
 /**
- * @file     crc.c
+ * @file     ade_crc.c
  * @brief    CRC calculation functions
  * @{
  */
 
 /*============= I N C L U D E S =============*/
-#include "crc.h"
+#include "ade_crc.h"
 
 /*=============  C O D E  =============*/
 /*Function to calculate the CRC-8 value. */
-uint32_t CalculateCrc8(uint8_t *pBuff, uint32_t numBytes)
+uint32_t AdeCalculateCrc8(uint8_t *pBuff, uint32_t numBytes)
 {
     uint8_t checksum = (uint8_t)CRC8_SEED;
     uint8_t temp;
@@ -47,7 +47,7 @@ uint32_t CalculateCrc8(uint8_t *pBuff, uint32_t numBytes)
 }
 
 /*Function to calculate the CRC-16 value. */
-uint32_t CalculateCrc16(uint8_t *pBuff, uint32_t numBytes)
+uint32_t AdeCalculateCrc16(uint8_t *pBuff, uint32_t numBytes)
 {
     uint16_t checksum = (uint16_t)CRC16_SEED;
     uint16_t temp;
