@@ -5,7 +5,6 @@
 /**
  * @file    adi_adema12x_frame_format.h
  * @brief   Definitions for ADC Frame format in ADEMA124 and ADEMA127.
- * @defgroup ADC_FRAME Frame formats
  * @{
  */
 
@@ -22,11 +21,6 @@ extern "C" {
 #endif
 
 /*=============  D E F I N I T I O N S  =============*/
-
-/** @defgroup ADC_FRAME Frame formats
- * @brief This section contains the ADC Frame formats.
- * @{
- */
 
 /** Number of bytes in an ADC long frame of ADEMA124. */
 #define ADI_ADC_LONG_FRAME_NBYTES_ADEMA124 (20)
@@ -153,8 +147,6 @@ typedef struct
     /** CRC for each frame. */
     uint8_t crc[2];
 } ADI_ADC_RESPONSE_SHORT_FRAME_ADEMA12X;
-
-/** @} */
 
 #ifdef __cplusplus
 }

@@ -13,6 +13,10 @@
 			"path": "../../../../../../include"
 		},
 		{
+			"name": "board_support/cmake",
+			"path": "../../../../../../board_support/cmake"
+		},
+		{
 			"name": "example",
 			"path": "../../../../"
 		},
@@ -49,6 +53,8 @@
 			"**/stm32h563zi": true,
 			"**/vscode": true,
 			"**/keil": true,
+			"**nucleo**": true,
+			"app_mcu_h5*": true,
 		},
 	"cmake.configureArgs": [
 		"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"

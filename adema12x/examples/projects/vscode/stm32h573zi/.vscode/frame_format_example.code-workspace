@@ -25,6 +25,10 @@
 			"path": "../../../../../../board_support/stm"
 		},
 		{
+			"name": "board_support/cmake",
+			"path": "../../../../../../board_support/cmake"
+		},
+		{
 			"name": "adc/include",
 			"path": "../../../../../../include"
 		},
@@ -45,6 +49,8 @@
 			"**/**.chm": true,
 			"**/vscode": true,
 			"**/freertos": true,
+			"**nucleo**": true,
+			"app_mcu_h7*": true,
 		},
 	"cmake.configureArgs": [
 		"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"

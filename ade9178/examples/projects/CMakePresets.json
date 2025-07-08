@@ -6,7 +6,6 @@
             "hidden": true,
             "generator": "MinGW Makefiles",
             "binaryDir": "${sourceDir}/build/${presetName}",
-		    "toolchainFile": "${sourceDir}/../../../board_support/cmake/gcc-arm-none-eabi.cmake",
             "cacheVariables": {
 				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }

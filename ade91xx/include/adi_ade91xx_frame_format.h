@@ -4,8 +4,7 @@
 
 /**
  * @file    adi_ade91xx_frame_format.h
- * @brief    Definitions for ADC Frame format in ADE9113, ADE9112, ADE9103.
- * @defgroup ADC_FRAME Frame formats
+ * @brief   Definitions for ADC Frame format in ADE9113, ADE9112, ADE9103.
  * @{
  */
 
@@ -22,11 +21,6 @@ extern "C" {
 #endif
 
 /*=============  D E F I N I T I O N S  =============*/
-
-/**
- * @brief This section contains the ADC Frame formats.
- * @{
- */
 
 /** Number of bytes in an ADC long frame of ADE9113, ADE9112, ADE9103. */
 #define ADI_ADC_LONG_FRAME_NBYTES_ADE91XX (16)
@@ -95,8 +89,6 @@ typedef struct
     /** CRC for each frame. */
     uint8_t crc[2];
 } ADI_ADC_RESPONSE_SHORT_FRAME_ADE91XX;
-
-/** @} */
 
 #ifdef __cplusplus
 }
