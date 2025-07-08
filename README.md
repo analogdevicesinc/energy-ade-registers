@@ -55,9 +55,6 @@ product/
 ├── readme.md                   # Instructions for IC header files and examples
 ```
 
-## Building, Running and Debugging Examples
-
-For detailed steps on building, running, and debugging the examples for each board, refer to the [board support instructions](https://github.com/analogdevicesinc/energy-board-support.git).
 
 ## License
 

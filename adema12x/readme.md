@@ -11,56 +11,60 @@
 
 ## Introduction
 
-This folder contains the register definitions and example code required to communicate with the ADEMA127 and ADEMA124 ICs. Header files are located in the [include](include) directory. ADI also provides a [ADC Service](https://github.com/analogdevicesinc/energy-adc-service) with higher levels of abstraction and an ACE evaluation firmware. It is recommended to use that for quick evaluation and development, and use direct register access for finer control.
+This folder contains the register definitions and example code required to communicate with the ADEMA127 and ADEMA124 ICs. Header files are located in the [include](include) directory. ADI also provides an [ADC Service](https://github.com/analogdevicesinc/energy-adc-service) with higher levels of abstraction and ACE evaluation firmware. It is recommended to use that for quick evaluation and development, and use direct register access for finer control.
 
-The ADEMA127 and ADEMA124 ICs uses a command and response protocol over SPI for communication with host devices. Use the following configuraton for communciating to the ICs
+The ADEMA127 and ADEMA124 ICs use a command and response protocol over SPI for communication with host devices. Use the following configuration for communicating with the ICs:
 
 - **SPI**
-  - SPI mode: 3 (CPOL = 1, CPHA = 1)  Clock < 22MHz
-- **GPIOs**:
-  - 1 GPIO (output) active low to reset the ADC
-  - 1 GPIO (input) active low for ADC DREADY from ADC
+  - Mode: 3 (CPOL = 1, CPHA = 1), Clock < 22 MHz
+- **GPIOs**
+  - 1 GPIO (output), active low, to reset the ADC
+  - 1 GPIO (input), active low, for ADC DREADY from ADC
 
-The following structures are defined to populate command frame properly
+The following structures are defined to populate the command frame properly:
 
-- ADI_ADC_CMD
-- ADI_ADC_CMD_LONG_FRAME_ADEMA124
-- ADI_ADC_CMD_LONG_FRAME_ADEMA127
-- ADI_ADC_CMD_SHORT_FRAME_ADEMA12x
+- `ADI_ADC_CMD`
+- `ADI_ADC_CMD_LONG_FRAME_ADEMA124`
+- `ADI_ADC_CMD_LONG_FRAME_ADEMA127`
+- `ADI_ADC_CMD_SHORT_FRAME_ADEMA12x`
 
-Following structures are defined to extract responses easily.
+The following structures are defined to extract responses easily:
 
-- ADI_ADC_CMD_RESPONSE
-- ADI_ADC_RESPONSE_LONG_FRAME_ADEMA124
-- ADI_ADC_RESPONSE_LONG_FRAME_ADEMA127
-- ADI_ADC_RESPONSE_SHORT_FRAME_ADEMA12x
+- `ADI_ADC_CMD_RESPONSE`
+- `ADI_ADC_RESPONSE_LONG_FRAME_ADEMA124`
+- `ADI_ADC_RESPONSE_LONG_FRAME_ADEMA127`
+- `ADI_ADC_RESPONSE_SHORT_FRAME_ADEMA12x`
 
-For every SPI frame, command is received and response to the previous command is sent to the MCU.
+For every SPI frame, a command is received and the response to the previous command is sent to the MCU.
 
 ## Example
 
-The example provided demonstrates basic communication with the ADEMA127 and ADEMA124, using ADEMA127 IEC 3Phase Meter board and STM32H5 APP MCU board. However the example sequence is applicable to ADEMA124 ICs as well.
+The example provided demonstrates basic communication with the ADEMA127 and ADEMA124, using the ADEMA127 IEC 3-Phase Meter board and STM32H5 APP MCU board. However, the example sequence is applicable to ADEMA124 ICs as well.
 
 - Initializes the evaluation board by setting up peripherals and performing a board reset.
-- Perform reading from and writing to ADC scratch register.
-- Perform reading from and writing to ADC datapath configuration register.
-- Perform reading from and writing to ADC DSP Ram.
-- Read samples.
+- Performs reading from and writing to the ADC scratch register.
+- Performs reading from and writing to the ADC datapath configuration register.
+- Performs reading from and writing to the ADC DSP RAM.
+- Reads samples.
 
 ### Hardware Setup and Connections
 
-Connect STM32H573 APP MCU board to ADEMA127 IEC 3Phase Meter board using the on-board connector.
+Connect the STM32H573 APP MCU board to the ADEMA127 IEC 3-Phase Meter board using the on-board connector.
+
+### Required Software
 
 
-### Building, Running and Debugging Examples
+### Building, Running, and Debugging Examples
 
-- See the [bsp readme](https://github.com/analogdevicesinc/energy-board-support/blob/main/stm/app_mcu_h5/readme.md) for instructions on building, running and debugging the example.
+- `CMakeLists.txt` for the example project is present in the [projects](examples/projects/) folder.
+- A VS Code workspace for the project is present in the [projects/vscode/stm32h573zi](examples/projects/vscode/stm32h573zi/) folder.
+- See the [board support readme](https://github.com/analogdevicesinc/energy-board-support/blob/main/stm/app_mcu_h5/readme.md) for instructions on building, running, and debugging the example.
 
 - After successfully building the example, refer to the "Flashing the Hex File" section in the same README to flash the generated hex file onto the board. Once flashing is complete, you should see output messages on the terminal.
 
 ### Board Support Functions
 
-The following functions from [board_support repo](https://github.com/analogdevicesinc/energy-board-support/tree/main/generic/include) are used in this example. Users must implement these functions to ensure the example builds and operates correctly:
+The following functions from the [board_support repo](https://github.com/analogdevicesinc/energy-board-support/tree/main/generic/include) are used in this example. Users must implement these functions to ensure the example builds and operates correctly:
 
 - `EvbInit`
 - `EvbInitMessageBuffer`

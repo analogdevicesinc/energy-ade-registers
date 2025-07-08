@@ -14,22 +14,22 @@
 
 This folder contains the register definitions and example code required to communicate with the ADE9178 IC. Header files are located in the [include](include) directory. ADI also provides a [MetIC service](https://github.com/analogdevicesinc/energy-ade9178-example.git) with higher levels of abstraction and a CLI example. It is recommended to use that for quick evaluation and development, and use direct register access for finer control.
 
-The ADE9178 uses a command and response protocol over SPI for communication with host devices. The command format is given in ADI_ADE9178_CMD structure.  Following structures are defined to extract various responses from ADE9178 easily:
+The ADE9178 uses a command and response protocol over SPI for communication with host devices. The command format is given in `ADI_ADE9178_CMD` structure. The following structures are defined to extract various responses from ADE9178 easily:
 
-- ADI_ADE9178_RESPONSE
-- ADI_ADE9178_1x2xADC_RESPONSE
-- ADI_ADE9178_3x4xADC_RESPONSE
-- ADI_ADE9178_ERROR_RESPONSE
+- `ADI_ADE9178_RESPONSE`
+- `ADI_ADE9178_1x2xADC_RESPONSE`
+- `ADI_ADE9178_3x4xADC_RESPONSE`
+- `ADI_ADE9178_ERROR_RESPONSE`
 
- Use following configuration to communicate to  the ADE9178:
+Use the following configuration to communicate with the ADE9178:
 
 - **SPI**
   - Mode: 3 (CPOL = 1, CPHA = 1)
   - Speed: > 6 MHz
 - **GPIOs**
-  - 2 inputs for ADE9178 protocol: [`HOST_RDY`, `HOST_ERR`] -  Active Low
-  - 4 inputs for interrupt handling: [`IRQ0`, `IRQ1`, `IRQ2`, `IRQ3`] -  Active Low
-  - 1 output to reset the ADCs and ADE9178 -  Active Low
+  - 2 inputs for ADE9178 protocol: [`HOST_RDY`, `HOST_ERR`] - Active Low
+  - 4 inputs for interrupt handling: [`IRQ0`, `IRQ1`, `IRQ2`, `IRQ3`] - Active Low
+  - 1 output to reset the ADCs and ADE9178 - Active Low
 
 The following diagram shows the sequence of events while communicating with the ADE9178:
 
@@ -53,9 +53,9 @@ sequenceDiagram
     ADE9178->>GPIO: HOSTRDY
     deactivate ADE9178
     activate GPIO
-    GPIO->>App: HOSTRDY ISR
+    GPIO->>App: HOST_RDY ISR
     activate App
-    App-->>GPIO: Acknowledge HOSTRDY
+    App-->>GPIO: Acknowledge HOST_RDY
     deactivate App
     deactivate GPIO
     App->>SPI: Read Response
@@ -83,13 +83,15 @@ The example provided demonstrates basic communication with the [ADE9178 IC](http
 
 ### Building, Running, and Debugging Examples
 
-- See the [build readme](https://github.com/analogdevicesinc/energy-board-support/blob/main/max/eval_ade9178/readme.md) for instructions on building, running, and debugging the example.
+- `CMakeLists.txt` for the example project is present in the [projects](examples/projects/) folder.
+- A VS Code workspace for the project is present in the [projects/vscode/max32670](examples/projects/vscode/max32670/) folder.
+- See the [board support readme](https://github.com/analogdevicesinc/energy-board-support/blob/main/max/eval_ade9178/readme.md) for instructions on building, running, and debugging the example.
 
 - After successfully building the example, refer to the "Programming the Firmware onto the Board" section in the same README to flash the generated hex file onto the board. Once flashing is complete, you should see output messages on the terminal.
 
 ### Board Support Functions
 
-The following functions from [board_support repo](https://github.com/analogdevicesinc/energy-board-support/tree/main/generic/include) are used in this example. If you are porting to a different platform, you must implement these functions:
+The following functions from the [board_support repo](https://github.com/analogdevicesinc/energy-board-support/tree/main/generic/include) are used in this example. If you are porting to a different platform, you must implement these functions:
 
 - `EvbInit`
 - `EvbInitMessageBuffer`
