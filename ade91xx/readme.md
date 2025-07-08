@@ -60,7 +60,7 @@ Connect the STM32H573 APP MCU board to EVAL-ADE9113 as follows:
 ### Building, Running, and Debugging Examples
 
 - `CMakeLists.txt` for the example project is present in the [projects](examples/projects/) folder.
-- A VS Code workspace for the project is present in the [projects/vscode/stm32h573zi](examples/projects/vscode/stm32h573zi/) folder.
+- A [VS Code workspace](examples/projects/vscode/stm32h573zi/.vscode/frame_format_example.code-workspace) is also given as part of the example.
 - See the [board support readme](https://github.com/analogdevicesinc/energy-board-support/blob/main/stm/app_mcu_h5/readme.md) for instructions on building, running, and debugging the example.
 
 - After successfully building the example, refer to the "Flashing the Hex File" section in the same README to flash the generated hex file onto the board. Once flashing is complete, you should see output messages on the terminal.

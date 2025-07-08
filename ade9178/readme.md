@@ -84,7 +84,7 @@ The example provided demonstrates basic communication with the [ADE9178 IC](http
 ### Building, Running, and Debugging Examples
 
 - `CMakeLists.txt` for the example project is present in the [projects](examples/projects/) folder.
-- A VS Code workspace for the project is present in the [projects/vscode/max32670](examples/projects/vscode/max32670/) folder.
+- A [VS Code workspace](examples/projects/vscode/max32670/.vscode/cmd_format_example.code-workspace) for the project is also given for debugging the project.
 - See the [board support readme](https://github.com/analogdevicesinc/energy-board-support/blob/main/max/eval_ade9178/readme.md) for instructions on building, running, and debugging the example.
 
 - After successfully building the example, refer to the "Programming the Firmware onto the Board" section in the same README to flash the generated hex file onto the board. Once flashing is complete, you should see output messages on the terminal.
