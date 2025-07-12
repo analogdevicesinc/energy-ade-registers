@@ -2,19 +2,15 @@
 	"folders": [
 		{
 			"name": "project",
-			"path": ".."
+			"path": "."
 		},
 		{
 			"name": "include",
-			"path": "../../../../../include"
-		},
-		{
-			"name": "adc/include",
-			"path": "../../../../../../include"
+			"path": "../../../include"
 		},
 		{
 			"name": "board_support/cmake",
-			"path": "../../../../../../board_support/cmake"
+			"path": "../../../board_support/cmake"
 		},
 		{
 			"name": "example",
@@ -22,23 +18,19 @@
 		},
 		{
 			"name": "board_support_stm",
-			"path": "../../../../../../board_support/stm"
+			"path": "../../../board_support/stm"
 		},
 		{
 			"name": "board_support_generic",
-			"path": "../../../../../../board_support/generic"
+			"path": "../../../board_support/generic"
 		},
 		{
 			"name": "crc",
-			"path": "../../../../../../crc"
+			"path": "../../../crc"
 		},
 		{
 			"path": "C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
 		},
-		{
-			"name": "cmake",
-			"path": "../../../"
-		}
 	],
 	"settings": {
 		"files.exclude": {
@@ -54,10 +46,11 @@
 			"**/vscode": true,
 			"**/keil": true,
 			"**nucleo**": true,
-			"app_mcu_h5*": true,
+			"app_mcu_h7*": true,
 		},
 	"cmake.configureArgs": [
-		"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
+		//Pass build flags to cmake here.
+		//"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
 	],
 	}
 }

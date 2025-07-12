@@ -6,35 +6,35 @@
 	"folders": [
 		{
 			"name": "vscode",
-			"path": ".."
-		},
-		{
-			"name": "cmake",
-			"path": "../../../"
-		},
-		{
-			"name": "ade9178_include",
-			"path": "../../../../../include"
+			"path": "."
 		},
 		{
 			"name": "ade91xx_include",
-			"path": "../../../../../../ade91xx/include"
+			"path": "../../../ade91xx/include"
 		},
 		{
 			"name": "examples",
-			"path": "../../../.."
+			"path": "../"
+		},
+		{
+			"name": "include",
+			"path": "../../../include"
+		},
+		{
+			"name": "board_support/cmake",
+			"path": "../../../board_support/cmake"
 		},
 		{
 			"name": "board_support_maxim",
-			"path": "../../../../../../board_support/max"
+			"path": "../../../board_support/max"
 		},
 		{
 			"name": "board_support_generic",
-			"path": "../../../../../../board_support/generic"
+			"path": "../../../board_support/generic"
 		},
 		{
 			"name": "crc",
-			"path": "../../../../../../crc"
+			"path": "../../../crc"
 		},
 	],
 
@@ -44,6 +44,8 @@
 			"**/jever_ade9178": true,
 			"**/vscode/max32670": true,
 			"**/keil": true,
+			"**/projects": true,
+			"*.py": true,
 		},
 		"terminal.integrated.env.windows": {
 			"Path":"${config:OCD_path};${config:ARM_GCC_path}/bin;${config:xPack_GCC_path}/bin;${config:MSYS_path}/usr/bin;${config:Make_path};${env:PATH}",
@@ -122,7 +124,5 @@
 		"C_Cpp.autoAddFileAssociations": false,
 		"C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false,
 		"cortex-debug.variableUseNaturalFormat": false,
-		"stm32-for-vscode.openOCDPath": "C:\\MaximSDK\\Tools\\OpenOCD\\openocd.EXE",
-		"stm32-for-vscode.makePath": false,
 	}
 }

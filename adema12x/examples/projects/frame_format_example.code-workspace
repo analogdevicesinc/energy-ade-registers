@@ -2,42 +2,38 @@
 	"folders": [
 		{
 			"name": "project",
-			"path": ".."
+			"path": "."
 		},
 		{
 			"name": "include",
-			"path": "../../../../../include"
+			"path": "../../../include"
 		},
 		{
 			"name": "example",
-			"path": "../../../../"
+			"path": "../../examples"
 		},
 		{
 			"name": "crc",
-			"path": "../../../../../../crc"
-		},
-		{
-			"name": "board_support/generic",
-			"path": "../../../../../../board_support/generic"
-		},
-		{
-			"name": "board_support",
-			"path": "../../../../../../board_support/stm"
+			"path": "../../../crc"
 		},
 		{
 			"name": "board_support/cmake",
-			"path": "../../../../../../board_support/cmake"
+			"path": "../../../board_support/cmake"
+		},
+		{
+			"name": "board_support/generic",
+			"path": "../../../board_support/generic"
+		},
+		{
+			"name": "board_support",
+			"path": "../../../board_support/stm"
 		},
 		{
 			"name": "adc/include",
-			"path": "../../../../../../include"
+			"path": "../../../include"
 		},
 		{
 			"path": "C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
-		},
-		{
-			"name": "cmake",
-			"path": "../../../"
 		}
 	],
 	"settings": {
@@ -51,13 +47,17 @@
 			"**/freertos": true,
 			"**nucleo**": true,
 			"app_mcu_h7*": true,
+			"**/projects": true,
+			"**/keil": true,
+			"**.py": true
 		},
 	"cmake.configureArgs": [
-		"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
+		//Pass build args to cmake here.
+		//"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
 	],
 	"files.associations": {
 		"app_cfg.h": "c",
 		"adi_evb.h": "c"
-	},
+	}
 	}
 }
