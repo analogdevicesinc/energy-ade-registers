@@ -28,9 +28,6 @@ endif()
 set(EVB "app_mcu_h5" CACHE STRING "name of evaluation board")
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type")
 
-#Base directory for HAL Drivers
-set(STM32H5_HAL_DRIVERS C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver CACHE
-PATH "Path to STM32CubeH5 directory")
 
 # Include wrapper toolchain file
 include(${BOARD_SUPPORT_DIR}/cmake/toolchain_wrapper.cmake)
@@ -44,10 +41,7 @@ enable_language(C ASM)
 # Core project settings
 project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
-
 include(CMakePrintHelpers)
-cmake_print_variables(EVB)
-cmake_print_variables(STM32H5_HAL_DRIVERS)
 add_compile_options(-Wcast-align)
 
 # Create an executable object type

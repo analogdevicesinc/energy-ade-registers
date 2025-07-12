@@ -5,16 +5,20 @@
 			"path": "."
 		},
 		{
+			"name":"example",
+			"path": ".."
+		},
+		{
 			"name": "include",
 			"path": "../../../include"
 		},
 		{
-			"name": "board_support/cmake",
-			"path": "../../../board_support/cmake"
+			"name": "ade91xx_include",
+			"path": "../../include"
 		},
 		{
-			"name": "example",
-			"path": "../../../../"
+			"name": "crc",
+			"path": "../../../crc"
 		},
 		{
 			"name": "board_support_stm",
@@ -25,32 +29,23 @@
 			"path": "../../../board_support/generic"
 		},
 		{
-			"name": "crc",
-			"path": "../../../crc"
-		},
-		{
-			"path": "C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
-		},
+			"name":"toolchain",
+			"path": "../../../board_support/cmake"
+
+		}
+	
 	],
 	"settings": {
 		"files.exclude": {
 			"**/test": true,
-			"**/nucleo_h563zi_master": true,
-			"**/crane_sieval": true,
-			"**/nucleo_h563zi_slave": true,
 			"**/Templates": true,
 			"**/_htmresc": true,
 			"**/**.html": true,
 			"**/**.chm": true,
-			"**/stm32h563zi": true,
 			"**/vscode": true,
 			"**/keil": true,
 			"**nucleo**": true,
 			"app_mcu_h7*": true,
 		},
-	"cmake.configureArgs": [
-		//Pass build flags to cmake here.
-		//"-DSTM32H5_HAL_DRIVERS=C:/STM32Cube/Repository/STM32Cube_FW_H5_V1.3.0/Drivers/STM32H5xx_HAL_Driver"
-	],
 	}
 }

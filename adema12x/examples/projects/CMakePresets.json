@@ -25,13 +25,6 @@
             }
         },
         {
-            "name": "Release",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
             "name": "MinSizeRel",
             "inherits": "default",
             "cacheVariables": {
@@ -51,10 +44,6 @@
         {
             "name": "Release",
             "configurePreset": "Release"
-        },
-        {
-            "name": "MinSizeRel",
-            "configurePreset": "MinSizeRel"
         }
     ]
 }

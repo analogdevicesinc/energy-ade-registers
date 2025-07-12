@@ -8,7 +8,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(USE_DUMMY_EVB "Use dummy EVB" OFF)
 # Base directory for METEX Directory
+
 set(ADE9178_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR}/../../)
+set(BOARD_SUPPORT_DIR ${ADE9178_ROOT_DIR}/../board_support)
 
 # Set Target
 set(EVB "eval_ade9178" CACHE STRING "name of evaluation board")
@@ -16,7 +18,7 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build Target")
 
 
 if(NOT USE_DUMMY_EVB)
-include(${ADE9178_ROOT_DIR}/../board_support/cmake/toolchain_wrapper.cmake)
+include(${BOARD_SUPPORT_DIR}/cmake/toolchain_wrapper.cmake)
 endif()
 
 # Set the project name
@@ -44,14 +46,14 @@ set (APP_SRC  ${ADE9178_ROOT_DIR}/examples/cmd_format_example.c
               ${ADE9178_ROOT_DIR}/../crc/source/ade_crc.c)
 
 if(USE_DUMMY_EVB)
-set(APP_SRC  ${APP_SRC} ${ADE9178_ROOT_DIR}/../board_support/dummy_board/adi_evb.c)
-set(APP_INCLUDE ${ADE9178_ROOT_DIR}/../board_support/dummy_board/
-                ${ADE9178_ROOT_DIR}/../board_support/generic/include/
-                ${ADE9178_ROOT_DIR}/../board_support/dummy_board/config/)
+set(APP_SRC  ${APP_SRC} ${BOARD_SUPPORT_DIR}/dummy_board/adi_evb.c)
+set(APP_INCLUDE ${BOARD_SUPPORT_DIR}/dummy_board/
+                ${BOARD_SUPPORT_DIR}/generic/include/
+                ${BOARD_SUPPORT_DIR}/dummy_board/config/)
 else()
 # Add boardS_support sources
 add_subdirectory(
-  ${ADE9178_ROOT_DIR}/../board_support
+  ${BOARD_SUPPORT_DIR}
   ${CMAKE_BINARY_DIR}/board_support
 )
 set(APP_INCLUDE "")
