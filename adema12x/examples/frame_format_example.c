@@ -88,7 +88,6 @@ int main()
             "\n**************** ADEMA127 and ADEMA124 Frame Format Example ******************\n");
 
         printf("This example demonstrates basic communication with the ADEMA127 and ADEMA124.\n");
-        printf("It shows how to write to and read from ADEMA127 and ADEMA124.\n");
 
         EvbResetAdcs();
         /* Example: Write and read ADC register */

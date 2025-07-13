@@ -78,8 +78,6 @@ int main()
 
         printf("This example demonstrates basic communication with the ADE9178.\n");
 
-        printf("It shows how to write to and read from ADE9178 and ADC (ADE91xx/ADE910x) registers "
-               "using the command protocol.\n");
 
         // Enable IRQ for HOST_RDY and HOST_ERR pins
         EvbEnableAllGPIOIrq();
