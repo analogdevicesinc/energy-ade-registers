@@ -7,8 +7,14 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
-				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "SDK":"C:/ST/STM32CubeH5/Drivers/STM32H5xx_HAL_Driver"
+				"CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+       {
+            "name": "Release",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
@@ -19,43 +25,25 @@
             }
         },
         {
-            "name": "RelWithDebInfo",
+            "name": "RelWithDbgInfo",
             "inherits": "default",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-            }
-        },
-        {
-            "name": "Release",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "MinSizeRel",
-            "inherits": "default",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "MinSizeRel"
+                "CMAKE_BUILD_TYPE": "RelWithDbgInfo"
             }
         }
     ],
     "buildPresets": [
+       {
+            "name": "Release",
+            "configurePreset": "Release"
+        },
         {
             "name": "Debug",
             "configurePreset": "Debug"
         },
         {
-            "name": "RelWithDebInfo",
-            "configurePreset": "RelWithDebInfo"
-        },
-        {
-            "name": "Release",
-            "configurePreset": "Release"
-        },
-        {
-            "name": "MinSizeRel",
-            "configurePreset": "MinSizeRel"
+            "name": "RelWithDbgInfo",
+            "configurePreset": "RelWithDbgInfo"
         }
     ]
 }
