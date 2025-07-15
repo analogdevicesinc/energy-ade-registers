@@ -1,9 +1,17 @@
 {
     "version": "2.0.0",
+    "windows": {
+        "options": {
+            "shell": {
+                "executable": "cmd.exe",
+                "args": ["/d", "/c"]
+            }
+        }
+    },
     "tasks": [
         {
-            "label": "build",
             "type": "cppbuild",
+            "label": "Build project",
             "command": "cmake",
             "args": ["--build", "${command:cmake.buildDirectory}", "-j", "8"],
             "options": {
@@ -14,6 +22,19 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "type": "shell",
+            "label": "OpenOCD: Flash Project",
+            "command": ".vscode\\flash.bat",
+            "args": [
+                "C:/MaximSDK/Tools/OpenOCD/openocd.exe",
+                "${command:cmake.launchTargetPath}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         },
         {
             "type": "shell",
@@ -34,86 +55,6 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
-        },
-        {
-            "label": "flash",
-            "type": "shell",
-            "command": "arm-none-eabi-gdb",
-            "args": [
-                "--cd=\"${workspaceFolder}\"",
-                "--se=\"${workspaceFolder}/../../build/${command:cmake.buildType}/${config:program_file}\"",
-                "--symbols=${workspaceFolder}/../../build/${config:symbol_file}",
-                "-x=\"${workspaceFolder}/.vscode/flash.gdb\"",
-                "--ex=\"flash_m4 ${config:OCD_path} ${config:M4_OCD_interface_file} ${config:M4_OCD_target_file}\"",
-                "--batch"
-            ],
-            "group": "build",
-            "problemMatcher": [],
-            "dependsOn":["build"]
-        },
-        {
-            "label": "flash & run",
-            "type": "shell",
-            "command": "arm-none-eabi-gdb",
-            "args": [
-                "--cd=\"${workspaceFolder}\"",
-                "--se=\"${workspaceFolder}/../../build/${command:cmake.buildType}/${config:program_file}\"",
-                "--symbols=${workspaceFolder}/../../build/${command:cmake.buildType}/${config:symbol_file}",
-                "-x=\"${workspaceFolder}/.vscode/flash.gdb\"",
-                "--ex=\"flash_m4_run ${config:OCD_path} ${config:M4_OCD_interface_file} ${config:M4_OCD_target_file}\"",
-                "--batch"
-            ],
-            "group": "build",
-            "problemMatcher": [],
-            "dependsOn":["build"]
-        },
-        {
-            "label": "erase flash",
-            "type": "shell",
-            "command": "openocd",
-            "args": [
-                "-s", "${config:OCD_path}/scripts",
-                "-f", "interface/${config:M4_OCD_interface_file}",
-                "-f", "target/${config:M4_OCD_target_file}",
-                "-c", "\"init; reset halt; max32xxx mass_erase 0;\"",
-                "-c", "exit"
-            ],
-            "group":"build",
-            "problemMatcher": [],
-            "dependsOn":[]
-        },
-        {
-            "label": "openocd (m4)",
-            "type": "shell",
-            "command": "openocd",
-            "args": [
-                "-s",
-                "${config:OCD_path}/scripts",
-                "-f",
-                "interface/${config:M4_OCD_interface_file}",
-                "-f",
-                "target/${config:M4_OCD_target_file}",
-                "-c",
-                "\"init; reset halt\""
-            ],
-            "problemMatcher": [],
-            "dependsOn":[]
-        },
-        {
-            "label": "gdb (m4)",
-            "type": "shell",
-            "command": "arm-none-eabi-gdb",
-            "args": [
-                "--ex=\"cd ${workspaceFolder}\"",
-                "--se=\"${workspaceFolder}/../../build/${command:cmake.buildType}/${config:program_file}\"",
-                "--symbols=${workspaceFolder}/../../build/${command:cmake.buildType}/${config:symbol_file}",
-                "--ex=\"target remote localhost:3333\"",
-                "--ex=\"monitor reset halt\"",
-                "--ex=\"b main\"",
-                "--ex=\"c\""
-            ],
-            "problemMatcher": [],
-            "dependsOn":[]
         },
     ]
 }
