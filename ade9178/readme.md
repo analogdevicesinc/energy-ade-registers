@@ -12,7 +12,7 @@
 
 ## Introduction
 
-This folder contains the register definitions and example code required to communicate with the ADE9178 IC. Header files are located in the [include](include) directory. ADI also provides a [MetIC service](https://github.com/analogdevicesinc/energy-ade9178-example.git) with higher levels of abstraction and a CLI example. It is recommended to use that for quick evaluation and development, and use direct register access for finer control.
+This folder contains the register definitions and example code required to communicate with the ADE9178 IC. Header files are located in the [include](include) directory. ADI also provides a [MetIC service](https://github.com/analogdevicesinc/energy-metic-service.git) with higher levels of abstraction and a CLI example. It is recommended to use that for quick evaluation and development, and use direct register access for finer control.
 
 The ADE9178 uses a command and response protocol over SPI for communication with host devices. The command format is given in `ADI_ADE9178_CMD` structure. The following structures are defined to extract various responses from ADE9178 easily:
 
