@@ -28,6 +28,15 @@ A collection of header files and example projects for communicating with Analog 
 
 This repository is intended for developers working with ADI energy metering ICs and evaluation boards.
 
+The examples use the following submodules for demonstrations:
+- [energy-board-support](https://github.com/analogdevicesinc/energy-board-support)
+
+To clone the repository and its submodules, use the following command:
+
+```sh
+git clone --recursive https://github.com/analogdevicesinc/energy-ade-registers.git
+```
+
 ## Directory Structure
 
 ```
