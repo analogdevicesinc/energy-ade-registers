@@ -12,7 +12,7 @@
 
 ## Introduction
 
-This folder contains the register definitions and example code required to communicate with the ADE9178 IC. Header files are located in the [include](include) directory. ADI also provides a [MetIC service](https://github.com/analogdevicesinc/energy-ade9178-example.git) with higher levels of abstraction and a CLI example. It is recommended to use that for quick evaluation and development, and use direct register access for finer control.
+This folder contains the register definitions and example code required to communicate with the ADE9178 IC. Header files are located in the [include](include) directory. ADI also provides a [MetIC service](https://github.com/analogdevicesinc/energy-metic-service.git) with higher levels of abstraction and a CLI example. It is recommended to use that for quick evaluation and development, and use direct register access for finer control.
 
 The ADE9178 uses a command and response protocol over SPI for communication with host devices. The command format is given in `ADI_ADE9178_CMD` structure. The following structures are defined to extract various responses from ADE9178 easily:
 
@@ -84,7 +84,7 @@ The example provided demonstrates basic communication with the [ADE9178 IC](http
 ### Building, Running, and Debugging Examples
 
 - `CMakeLists.txt` for the example project is present in the [projects](examples/projects/) folder.
-- A [VS Code workspace](examples/projects/vscode/max32670/.vscode/cmd_format_example.code-workspace) for the project is also given for debugging the project.
+- A [VS Code workspace](examples/projects/cmd_format_example.code-workspace) for the project is also given for debugging the project.
 - See the [board support readme](https://github.com/analogdevicesinc/energy-board-support/blob/main/max/eval_ade9178/readme.md) for instructions on building, running, and debugging the example.
 
 - After successfully building the example, refer to the "Programming the Firmware onto the Board" section in the same README to flash the generated hex file onto the board. Once flashing is complete, you should see output messages on the terminal.

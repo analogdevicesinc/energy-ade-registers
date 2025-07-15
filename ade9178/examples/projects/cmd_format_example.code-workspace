@@ -1,0 +1,56 @@
+{
+	"folders": [
+		{
+			"name": "project",
+			"path": "."
+		},
+		{
+			"name":"example",
+			"path": ".."
+		},
+		{
+			"name": "include",
+			"path": "../../../include"
+		},
+		{
+			"name": "ade9178_include",
+			"path": "../../include"
+		},
+		{
+			"name": "ade91xx_include",
+			"path": "../../../ade91xx/include"
+		},
+	
+		{
+			"name": "crc",
+			"path": "../../../crc"
+		},
+		{
+			"name": "board_support_max",
+			"path": "../../../board_support/max"
+		},
+		{
+			"name": "board_support_generic",
+			"path": "../../../board_support/generic"
+		},
+		{
+			"name":"toolchain",
+			"path": "../../../board_support/cmake"
+
+		}
+	
+	],
+	"settings": {
+		"files.exclude": {
+			"**/test": true,
+			"**/Templates": true,
+			"**/_htmresc": true,
+			"**/**.html": true,
+			"**/**.chm": true,
+			"**/vscode": true,
+			"**/keil": true,
+			"**nucleo**": true,
+			"app_mcu_h7*": true,
+		},
+	}
+}

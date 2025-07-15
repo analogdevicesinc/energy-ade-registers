@@ -82,7 +82,6 @@ int main()
                "******************\n");
         printf("This example demonstrates basic communication with the ADE9113, ADE9112 and "
                "ADE9103 ICs.\n");
-        printf("It shows how to write to and read from ADC.\n");
 
         EvbResetAdcs();
         EvbDelayMs(ADI_ADC_STARTUP_TIME_MS);

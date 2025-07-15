@@ -47,14 +47,14 @@ Each energy metering IC has a dedicated folder named after the IC. The `include`
 product/
 ├── examples/                   # Example projects (if supported)
 │   ├── projects/
-│   │   ├── vscode/             # VS Code workspace and related files
+│   │   ├── .vscode/            # VS Code settings
 │   │   ├── CMakeLists.txt      # CMake build configuration
 │   │   └── CMakePresets.json   # CMake presets for build configuration
+|   |   └── xxxx.code-workspace # VS code workspace for example projects
 │   └── source/                 # Example source files
 ├── include/                    # IC-specific header files
 ├── readme.md                   # Instructions for IC header files and examples
 ```
-
 
 ## License
 
