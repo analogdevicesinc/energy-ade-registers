@@ -47,7 +47,7 @@ The example provided demonstrates basic communication with the [ADE9113](https:/
 
 ### Hardware Setup and Connections
 
-Connect the STM32H573 APP MCU board to EVAL-ADE9113 as follows:
+Connect the STM32H573 APP MCU board to [EVAL-ADE9113](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADE9113.html) as follows:
 - CS1 to P1A-1
 - MISO1 to P1A-2
 - MOSI to P1A-3
@@ -80,5 +80,5 @@ The following functions from the [board_support repo](https://github.com/analogd
 
 ## References
 
-- [ADE911x and ADE9103 Product Page](https://www.analog.com/en/products/ade9113.html)
-- [ADE911x and ADE9103 Datasheet (PDF)](https://www.analog.com/media/en/technical-documentation/data-sheets/ade9103-ade9112-ade9113.pdf)
+- [ADE9113 Datasheet and Product Info](https://www.analog.com/en/products/ade9113.html)
+- [EVAL-ADE9113](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADE9113.html)

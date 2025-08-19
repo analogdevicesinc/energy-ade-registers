@@ -8,6 +8,7 @@
   - [Required Software](#required-software)
   - [Building, Running, and Debugging Examples](#building-running-and-debugging-examples)
   - [Board Support Functions](#board-support-functions)
+- [References](#references)
 
 ## Introduction
 
@@ -39,7 +40,7 @@ For every SPI frame, a command is received and the response to the previous comm
 
 ## Example
 
-The example provided demonstrates basic communication with the ADEMA127 and ADEMA124, using the ADEMA127 IEC 3-Phase Meter board and STM32H5 APP MCU board. However, the example sequence is applicable to ADEMA124 ICs as well.
+The example provided demonstrates basic communication with the [ADEMA127](https://www.analog.com/en/products/ADEMA127.html) using the [EVAL-ADEMA127](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-adema127.html#eb-overview). However, the example sequence is applicable to and [ADEMA124](https://www.analog.com/en/products/adema124.html) as well.
 
 - Initializes the evaluation board by setting up peripherals and performing a board reset.
 - Performs reading from and writing to the ADC scratch register.
@@ -49,7 +50,7 @@ The example provided demonstrates basic communication with the ADEMA127 and ADEM
 
 ### Hardware Setup and Connections
 
-Connect the STM32H573 APP MCU board to the ADEMA127 IEC 3-Phase Meter board using the on-board connector.
+- [EVAL-ADEMA127](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-adema127.html#eb-overview)
 
 
 ### Building, Running, and Debugging Examples
@@ -69,3 +70,9 @@ The following functions from the [board_support repo](https://github.com/analogd
 - `EvbEnableDreadyIrq`
 - `EvbAdeSpiTransceive`
 - `EvbFlushMessages`
+
+## References
+
+- [EVAL-ADEMA127](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-adema127.html#eb-overview)
+- [ADEMA127 Datasheet and Product Info ](https://www.analog.com/en/products/ADEMA127.html)
+- [ADEMA124 Datasheet and Product Info ](https://www.analog.com/en/products/adema124.html)

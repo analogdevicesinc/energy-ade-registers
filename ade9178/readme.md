@@ -104,6 +104,5 @@ The following functions from the [board_support repo](https://github.com/analogd
 
 ## References
 
-- [ADE9178 Product Page](https://www.analog.com/en/products/ade9178.html)
-- [ADE9178 Datasheet (PDF)](https://www.analog.com/media/en/technical-documentation/data-sheets/ade9178.pdf)
-- [ADE9178 Evaluation Board](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-ade9178.html)
+- [ADE9178 Datasheet and Product Info ](https://www.analog.com/en/products/ade9178.html)
+- [EVAL-ADE9178](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-ade9178.html)
