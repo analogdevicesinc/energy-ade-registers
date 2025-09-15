@@ -266,8 +266,6 @@ static uint32_t ReadDatapathConfigRegister(void)
     uint16_t addr = ADDR_ADEMA127_MMR_DATARATE;
     ADI_ADC_RESPONSE_SHORT_FRAME_ADEMA12X *pResponse = &shortResponse;
 
-    /* Unlock the data path. Set DATAPATH_CONFIG_LOCK=0 */
-    status = ConfigDatapathLock(0);
     // Write command to read register
     status = SendCmdAndGetResponse(addr, 0, ADI_ADC_RWB_READ, ADI_ADC_FRAME_FORMAT_SHORT,
                                    (uint8_t *)pResponse);
@@ -286,8 +284,6 @@ static uint32_t ReadDatapathConfigRegister(void)
         printf("Error reading ADC Datapath configuration register at address:0x%04X, status: %d\n",
                addr, status);
     }
-    /* Lock the data path. Set DATAPATH_CONFIG_LOCK=1 */
-    status = ConfigDatapathLock(1);
 
     return status;
 }
@@ -438,6 +434,7 @@ static uint32_t ReadSamples(int32_t pSamples[])
 
 /**
  * @brief Locks or unlocks the data path while accessing configuration registers.
+ * Warning: Calling this function with value=1 will set DATAPATH_CONFIG_LOCK and reset all DSP RAM to default values
  * @param value 0 to unlock, 1 to lock.
  * @return Status of the operation.
  */
